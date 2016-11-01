@@ -59,8 +59,6 @@ class Model(object):
             correct_predictions = tf.equal(self.predictions, tf.argmax(self.y, 1))
             self.accuracy = tf.reduce_mean(tf.cast(correct_predictions, "float"), name="accuracy")
 
-
-
     def conv(self, x, filter_height, filter_width, n_filters, strides=[1,1]):
         in_channels = int(list(x.get_shape())[-1])
 
