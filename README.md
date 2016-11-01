@@ -1,6 +1,6 @@
 ## Kaggle competition: Melbourne University AES/MathWorks/NIH Seizure Prediction
 
-This is simple solution to the [Kaggle competitoin: Seizure Prediction](https://www.kaggle.com/c/melbourne-university-seizure-prediction). The solution is a Tensorflow implementation of a similar solution based on [neon](https://github.com/anlthms/sp-2016).  
+This is simple solution to the [Kaggle competitoin: Seizure Prediction](https://www.kaggle.com/c/melbourne-university-seizure-prediction). The solution is a Tensorflow implementation of a similar solution based on [neon](https://github.com/anlthms/sp-2016). All required data can be downloaded from [here](https://www.kaggle.com/c/melbourne-university-seizure-prediction/data).
 
 ### Train model
 
