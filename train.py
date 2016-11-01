@@ -81,13 +81,13 @@ with tf.Graph().as_default():
     sess = tf.Session(config=session_conf)
     with sess.as_default():
         # model
-        cnn = Model(FLAGS.n_channels, FLAGS.dim1, FLAGS.dim2, FLAGS.classes, 
+        model = Model(FLAGS.n_channels, FLAGS.dim1, FLAGS.dim2, FLAGS.classes, 
                           l2_reg_lambda=FLAGS.l2_reg_lambda)
 
         # Define Training procedure
         global_step = tf.Variable(0, name="global_step", trainable=False)
         optimizer = tf.train.AdamOptimizer(FLAGS.lr)
-        grads_and_vars = optimizer.compute_gradients(cnn.loss)
+        grads_and_vars = optimizer.compute_gradients(model.loss)
         train_op = optimizer.apply_gradients(grads_and_vars, global_step=global_step)
 
         # Output directory for models and summaries
@@ -99,8 +99,8 @@ with tf.Graph().as_default():
         print("Writing to {}\n".format(out_dir))
 
         # Summaries for loss and accuracy
-        loss_summary = tf.scalar_summary("loss", cnn.loss)
-        acc_summary = tf.scalar_summary("accuracy", cnn.accuracy)
+        loss_summary = tf.scalar_summary("loss", model.loss)
+        acc_summary = tf.scalar_summary("accuracy", model.accuracy)
 
         # Train Summaries
         train_summary_op = tf.merge_summary([loss_summary, acc_summary])
@@ -125,12 +125,12 @@ with tf.Graph().as_default():
         # train step
         def train_step(x_batch, y_batch):
             feed_dict = {
-              cnn.x: x_batch,
-              cnn.y: y_batch,
-              cnn.dropout_keep_prob: FLAGS.dropout_keep_prob
+              model.x: x_batch,
+              model.y: y_batch,
+              model.dropout_keep_prob: FLAGS.dropout_keep_prob
             }
             _, step, summaries, loss, accuracy = sess.run(
-                [train_op, global_step, train_summary_op, cnn.loss, cnn.accuracy],
+                [train_op, global_step, train_summary_op, model.loss, model.accuracy],
                 feed_dict)
             time_str = datetime.datetime.now().isoformat()
             print("{}: step {}, loss {:g}, acc {:g}".format(time_str, step, loss, accuracy))
@@ -143,11 +143,11 @@ with tf.Graph().as_default():
             y_true, y_scores = [], []
             for x_batch, y_batch in batches:
                 feed_dict = {
-                  cnn.x: x_batch,
-                  cnn.y: y_batch,
-                  cnn.dropout_keep_prob: 1.0
+                  model.x: x_batch,
+                  model.y: y_batch,
+                  model.dropout_keep_prob: 1.0
                 }
-                scores = sess.run(cnn.probability, feed_dict)
+                scores = sess.run(model.probability, feed_dict)
                 y_true.append(y_batch)
                 y_scores.append(scores)
 
